@@ -5,10 +5,14 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      version:
+        description: Release version without the leading v (for example 1.0.2-octa)
+        required: true
+        type: string
 
 permissions:
   contents: write
-  attestations: write
   id-token: write
 
 jobs:
@@ -25,22 +29,29 @@ jobs:
           sudo apt-get install --yes dpkg-dev rpm
 
       - name: Build packages
+        id: build
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
-          version="${GITHUB_REF_NAME#v}"
+          version="${INPUT_VERSION:-${GITHUB_REF_NAME#v}}"
           bash packaging/build-packages.sh "$version" dist
           (cd dist && sha256sum *.deb *.rpm > SHA256SUMS)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
-      - name: Sign package build provenance
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: |
-            dist/*.deb
-            dist/*.rpm
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4.1.0
+
+      - name: Sign packages with Sigstore
+        run: |
+          for package in dist/*.deb dist/*.rpm; do
+            cosign sign-blob --yes --bundle "${package}.sigstore.json" "$package"
+          done
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          name: ECHO Text Editor ${{ github.ref_name }}
+          name: ECHO Text Editor v${{ steps.build.outputs.version }}
+          tag_name: v${{ steps.build.outputs.version }}
           generate_release_notes: true
           fail_on_unmatched_files: true
           files: dist/*

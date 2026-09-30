@@ -261,13 +261,21 @@ bash packaging/build-packages.sh 1.0.2-octa "$HOME/build/ete"
 
 These are architecture-independent packages. A `v*` tag runs the GitHub
 Actions release workflow, which builds the `.deb` and `.rpm` on Linux and
-attaches them to a GitHub Release. Each package has a GitHub-signed build
-provenance attestation and a SHA-256 checksum in `SHA256SUMS`. Verify package
-provenance with GitHub CLI:
+attaches them to a GitHub Release. Each package has a Sigstore keyless signature
+bound to the GitHub Actions release workflow and a SHA-256 checksum in
+`SHA256SUMS`. Verify the signatures and checksums with Cosign and `sha256sum`:
 
 ```bash
-gh attestation verify ete_1.0.2-octa_all.deb --repo ShadyDevelopment/ECHO-Text-Editor
-gh attestation verify ete-1.0.2-1.octa.noarch.rpm --repo ShadyDevelopment/ECHO-Text-Editor
+cosign verify-blob \
+  --bundle ete_1.0.2-octa_all.deb.sigstore.json \
+  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.2-octa' \
+  --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+  ete_1.0.2-octa_all.deb
+cosign verify-blob \
+  --bundle ete-1.0.2-1.octa.noarch.rpm.sigstore.json \
+  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.2-octa' \
+  --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+  ete-1.0.2-1.octa.noarch.rpm
 sha256sum --check SHA256SUMS
 ```
 

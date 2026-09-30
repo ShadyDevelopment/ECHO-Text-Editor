@@ -16,13 +16,13 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 out="${2:-$root/dist}"
 mkdir -p "$out"
 
-source_version="$(sed -nE 's/^VERSION = "([^"]+)"$/\1/p' "$root/attachments/ete.py")"
+source_version="$(sed -nE 's/^VERSION = "([^"]+)"\r?$/\1/p' "$root/attachments/ete.py")"
 if [[ "$version" != "$source_version" ]]; then
     echo "Requested version $version does not match source version $source_version" >&2
     exit 2
 fi
 
-for tool in dpkg-deb rpmbuild make tar sed; do
+for tool in dpkg-deb rpmbuild make tar sed tr; do
     if ! command -v "$tool" >/dev/null 2>&1; then
         echo "Missing required packaging tool: $tool" >&2
         exit 1
@@ -60,10 +60,13 @@ install -m 0644 "$root/Makefile" "$root/README.md" "$root/LICENSE" "$work/source
 install -m 0644 "$root/attachments/ete.py" "$work/source/$source_name/attachments/ete.py"
 install -m 0644 "$root/man/ete.1" "$work/source/$source_name/man/ete.1"
 tar -C "$work/source" -czf "$rpm_top/SOURCES/v$version.tar.gz" "$source_name"
-rpmbuild -bb \
+tr -d '\r' < "$root/ete.spec" > "$rpm_top/SPECS/ete.spec"
+# Build dependencies are checked above; --nodeps lets Debian/Ubuntu's RPM
+# tooling use apt-installed make/Python, which are not recorded in the RPM DB.
+rpmbuild -bb --nodeps \
     --define "_topdir $rpm_top" \
     --define "_sourcedir $rpm_top/SOURCES" \
-    "$root/ete.spec" >/dev/null
+    "$rpm_top/SPECS/ete.spec" >/dev/null
 find "$rpm_top/RPMS" -type f -name '*.rpm' -exec cp {} "$out/" \;
 
 printf 'Built packages in %s:\n' "$out"

@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  attestations: write
+  id-token: write
 
 jobs:
   release:
@@ -26,7 +28,14 @@ jobs:
         run: |
           version="${GITHUB_REF_NAME#v}"
           bash packaging/build-packages.sh "$version" dist
-          sha256sum dist/*
+          (cd dist && sha256sum *.deb *.rpm > SHA256SUMS)
+
+      - name: Sign package build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            dist/*.deb
+            dist/*.rpm
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2

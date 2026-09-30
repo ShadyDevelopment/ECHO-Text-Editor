@@ -206,8 +206,19 @@ function WelcomeArt() {
  | |____
  |______|
 
-ECHO Text Editor  v1.0.0
-Antonio Martinovic — ShadyDevelopment
+ECHO Text Editor  v1.0.2-octa
+Developed by Antonio Martinovic
+Copyright © ${new Date().getFullYear()}ShadyDevelopment
+Git: `}
+        <a
+          href="https://github.com/ShadyDevelopment/ECHO-Text-Editor"
+          target="_blank"
+          rel="noreferrer"
+          className="pointer-events-auto underline underline-offset-4"
+        >
+          ShadyDevelopment/ECHO-Text-Editor
+        </a>
+        {`
 
 Ctrl+S Save   Ctrl+F Find   Ctrl+Q Close   F1 Help`}
       </pre>

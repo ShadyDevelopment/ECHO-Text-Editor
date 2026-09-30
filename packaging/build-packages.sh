@@ -16,6 +16,12 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 out="${2:-$root/dist}"
 mkdir -p "$out"
 
+rpm_version="${version%%-*}"
+rpm_release="1"
+if [[ "$version" == *-* ]]; then
+    rpm_release+=".${version#*-}"
+fi
+
 for tool in dpkg-deb rpmbuild; do
     if ! command -v "$tool" >/dev/null 2>&1; then
         echo "Missing required packaging tool: $tool" >&2
@@ -51,8 +57,8 @@ install -m 0755 "$root/attachments/ete.py" "$rpm_top/SOURCES/ete.py"
 install -m 0644 "$root/README.md" "$rpm_top/SOURCES/README.md"
 cat > "$rpm_top/SPECS/ete.spec" <<EOF
 Name:           ete
-Version:        $version
-Release:        1%{?dist}
+Version:        $rpm_version
+Release:        $rpm_release%{?dist}
 Summary:        ECHO terminal text editor
 License:        Unspecified
 BuildArch:      noarch
@@ -79,4 +85,4 @@ find "$rpm_top/RPMS" -type f -name '*.rpm' -exec cp {} "$out/" \;
 
 printf 'Built packages in %s:\n' "$out"
 printf '  %s\n' "$out/ete_${version}_all.deb"
-find "$out" -maxdepth 1 -type f -name "ete-${version}-1*.rpm" -printf '  %p\n'
+find "$out" -maxdepth 1 -type f -name "ete-${rpm_version}-${rpm_release}*.rpm" -printf '  %p\n'

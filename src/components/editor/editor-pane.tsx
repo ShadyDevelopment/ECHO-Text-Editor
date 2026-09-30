@@ -197,31 +197,31 @@ function selRangeOnLine(
 
 function WelcomeArt() {
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-      <pre className="select-none text-center font-mono text-[13px] leading-5 tracking-wide text-accent/90">
-        {`  ______
- |  ____|
- | |__
- |  __|
- | |____
- |______|
-
-ECHO Text Editor  v1.0.2-octa
-Developed by Antonio Martinovic
-Copyright © ${new Date().getFullYear()}ShadyDevelopment
-Git: `}
-        <a
-          href="https://github.com/ShadyDevelopment/ECHO-Text-Editor"
-          target="_blank"
-          rel="noreferrer"
-          className="pointer-events-auto underline underline-offset-4"
-        >
-          ShadyDevelopment/ECHO-Text-Editor
-        </a>
-        {`
-
-Ctrl+S Save   Ctrl+F Find   Ctrl+Q Close   F1 Help`}
-      </pre>
+    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-4 py-8">
+      <div className="flex max-w-full flex-col items-center text-center font-mono text-[13px] leading-5 tracking-wide text-accent/90">
+        <img
+          src="/ete-logo.png"
+          alt="ECHO Text Editor"
+          className="mb-4 max-h-44 w-56 max-w-full select-none object-contain"
+        />
+        <div className="select-none">
+          <div>ECHO Text Editor v1.0.2-octa</div>
+          <div>Developed by Antonio Martinovic</div>
+          <div>Copyright © {new Date().getFullYear()} ShadyDevelopment</div>
+          <div>
+            Git:{" "}
+            <a
+              href="https://github.com/ShadyDevelopment/ECHO-Text-Editor"
+              target="_blank"
+              rel="noreferrer"
+              className="pointer-events-auto underline underline-offset-4"
+            >
+              ShadyDevelopment/ECHO-Text-Editor
+            </a>
+          </div>
+          <div className="mt-3">Ctrl+S Save · Ctrl+F Find · Ctrl+Q Close · F1 Help</div>
+        </div>
+      </div>
     </div>
   );
 }

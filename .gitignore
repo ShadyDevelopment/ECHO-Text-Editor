@@ -4,3 +4,5 @@ dist/
 .github_repo
 .env
 .env.*
+.preview.pid
+.preview.log

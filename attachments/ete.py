@@ -57,7 +57,7 @@ def credits():
     """Return the shared welcome/help credit lines."""
     return [
         "Developed by " + DEVELOPER,
-        "Copyright \u00a9 %d%s" % (time.localtime().tm_year, ORGANIZATION),
+        "Copyright \u00a9 %d %s" % (time.localtime().tm_year, ORGANIZATION),
         "Git: " + GIT_URL,
     ]
 

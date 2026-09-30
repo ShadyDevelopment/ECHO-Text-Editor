@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #07090a;
+  --color-surface: #101314;
+  --color-elevated: #161a1c;
+  --color-gutter: #0c0f10;
+  --color-fg: #e8f7f2;
+  --color-muted: #8aa39a;
+  --color-subtle: #5d726b;
+  --color-accent: #5eead4;
+  --color-accent-dim: #3ddcb4;
+  --color-accent-fg: #06201b;
+  --color-border: #1e2624;
+  --color-sel: #1a3d38;
+  --color-find: #3a3a16;
+  --color-warn: #e8b86d;
+  --color-ok: #5eead4;
+  --color-err: #f07178;
+  --color-tok-kw: #5eead4;
+  --color-tok-str: #9ee6c7;
+  --color-tok-com: #6b7f78;
+  --color-tok-num: #cdeee4;
+  --color-tok-typ: #7fd4c4;
+  --color-tok-spc: #b8d4cc;
+  --color-tok-fun: #d7fff4;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+@layer base {
+  html,
+  body,
+  #app {
+    height: 100%;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background: var(--color-sel);
+    color: var(--color-fg);
+  }
+}
+
+.tok-kw {
+  color: var(--color-tok-kw);
+  font-weight: 500;
+}
+.tok-str {
+  color: var(--color-tok-str);
+}
+.tok-com {
+  color: var(--color-tok-com);
+  font-style: italic;
+}
+.tok-num {
+  color: var(--color-tok-num);
+}
+.tok-typ {
+  color: var(--color-tok-typ);
+}
+.tok-spc {
+  color: var(--color-tok-spc);
+}
+.tok-fun {
+  color: var(--color-tok-fun);
+}
+.tok-br {
+  color: var(--color-accent-fg);
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+.tok-find {
+  background: var(--color-find);
+  color: var(--color-fg);
+}
+.tok-sel {
+  background: var(--color-sel);
+}
+
+.editor-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.editor-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-fg) 16%, transparent);
+  border-radius: 8px;
+}
+.editor-scroll::-webkit-scrollbar-track {
+  background: var(--color-gutter);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

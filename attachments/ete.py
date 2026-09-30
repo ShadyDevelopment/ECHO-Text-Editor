@@ -30,17 +30,16 @@ import termios
 import time
 import unicodedata
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 APP = "ECHO Text Editor"
 AUTHOR = "Antonio Martinovic - ShadyDevelopment"
 
 LOGO = [
-    r"  ______ ",
-    r" |  ____|",
-    r" | |__   ",
-    r" |  __|  ",
-    r" | |____ ",
-    r" |______|",
+    r" \       EEEEE",
+    r"  \      E",
+    r"   >     EEEE",
+    r"  /      E",
+    r" /       EEEEE",
 ]
 
 # Token roles used by the highlighter

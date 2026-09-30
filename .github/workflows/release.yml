@@ -1,0 +1,36 @@
+name: Build and release Linux packages
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build Debian and RPM packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v4
+
+      - name: Install package builders
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes dpkg-dev rpm
+
+      - name: Build packages
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          bash packaging/build-packages.sh "$version" dist
+          sha256sum dist/*
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ECHO Text Editor ${{ github.ref_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: dist/*

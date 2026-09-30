@@ -131,11 +131,9 @@ async function createPgliteSql(): Promise<Sql> {
 
   // Apply migrations/ (the single schema source) so preview matches production.
   // SQL is inlined by the bundler via import.meta.glob (no runtime fs); applied
-  // files are tracked in _migrations. The glob does not descend, so the opt-in
-  // auth schema under migrations/auth/ stays out. Runs once per module instance
-  // — so an HMR reload after adding a migration file applies it live — with
-  // passes serialized on a global chain so concurrent callers never
-  // double-apply.
+  // files are tracked in _migrations. Runs once per module instance — so an HMR
+  // reload after adding a migration file applies it live — with passes
+  // serialized on a global chain so concurrent callers never double-apply.
   const migrate = async (): Promise<void> => {
     const migrations = import.meta.glob("/migrations/*.sql", {
       query: "?raw",
@@ -192,21 +190,6 @@ export function getSql(): Promise<Sql> {
     throw err;
   });
   return sqlPromise;
-}
-
-/**
- * The shared PGLite instance (preview only), with `migrations/*.sql` applied.
- * Lets Better Auth persist to the SAME embedded DB as app data in preview (via a
- * Kysely dialect). Throws when `DATABASE_URL` is set (that path uses Neon).
- */
-export async function getPglite(): Promise<import("@electric-sql/pglite").PGlite> {
-  if (dbSource !== "pglite") {
-    throw new Error("getPglite() is only available on the PGLite fallback (no DATABASE_URL)");
-  }
-  await getSql();
-  const pg = await globalRef.__pgliteInstance__;
-  if (!pg) throw new Error("PGLite instance failed to initialize");
-  return pg;
 }
 
 /**

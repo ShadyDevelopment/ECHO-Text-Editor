@@ -1,5 +1,5 @@
 import { n as __exportAll } from "../_runtime.mjs";
-import { A as getScriptPreloadAttrs, B as isDangerousProtocol, D as toCrossJSONStream, E as toCrossJSONAsync, F as _getRenderedMatches, G as isNotFound, I as executeRewriteInput, K as require_react, L as invariant, M as resolveManifestAssetLink, N as resolveManifestCssLink, P as waitForReason, U as isRedirect, V as isPromise, W as rootRouteId, a as isSsrResponse, b as require_jsx_runtime, c as stripSsrResponseBody, i as disposeSsrResponse, j as getStylesheetHref, n as bindSsrResponseToRequest, o as normalizeSsrResponse, p as RouterProvider, r as defineHandlerCallback, s as replaceSsrResponse, t as renderRouterToStream, w as fromJSON } from "../_libs/@tanstack/react-router+[...].mjs";
+import { A as getStylesheetHref, B as isPromise, C as fromJSON, E as toCrossJSONStream, F as executeRewriteInput, G as require_react, H as isRedirect, I as invariant, M as resolveManifestCssLink, N as waitForReason, P as _getRenderedMatches, T as toCrossJSONAsync, U as rootRouteId, W as isNotFound, a as isSsrResponse, c as stripSsrResponseBody, i as disposeSsrResponse, j as resolveManifestAssetLink, k as getScriptPreloadAttrs, n as bindSsrResponseToRequest, o as normalizeSsrResponse, p as RouterProvider, r as defineHandlerCallback, s as replaceSsrResponse, t as renderRouterToStream, y as require_jsx_runtime, z as isDangerousProtocol } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as createServerHistory } from "../_libs/tanstack__history.mjs";
 import { a as defaultSerovalDeserializerPlugins, i as createRawStreamRPCPlugin, n as attachRouterServerSsrUtils, o as makeSerovalPlugin, r as getNormalizedURL, s as createSerializationAdapter, t as mergeHeaders } from "../_libs/@tanstack/router-core+[...].mjs";
 import { n as toResponse, t as H3Event } from "../_libs/h3-v2+rou3.mjs";
@@ -84,7 +84,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-B0Yww2Uo.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-DxyyDLMo.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -1315,7 +1315,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-DHT-6qgH.mjs").then((n) => n.t),
+		import("./router-NnejY0Xf.mjs").then((n) => n.t),
 		import("./start-5Z2QO8AU.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);

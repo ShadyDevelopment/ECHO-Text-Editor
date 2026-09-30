@@ -1,0 +1,49 @@
+.TH ETE 1 "October 2026" "ETE 1.0.4-octa" "User Commands"
+.SH NAME
+ete \- ECHO terminal text editor
+.SH SYNOPSIS
+.B ete
+.RI [ +LINE ]
+.RI [ FILE ]
+.br
+.B ete
+.BR --version
+.br
+.B ete
+.BR --help
+.SH DESCRIPTION
+.B ete
+is a full-screen terminal text editor with syntax highlighting, line numbers,
+mouse support, undo and redo, find and replace, automatic indentation, and
+word wrap. It uses Python 3 and the standard library.
+.SH OPTIONS
+.TP
+.BI + LINE
+Open the file with the cursor on the specified line. This argument may appear
+before or after the file name.
+.TP
+.B --version
+Print the installed version and exit. The short form is
+.BR -v .
+.TP
+.B --help
+Print command-line help and exit. The short form is
+.BR -h .
+.SH ARGUMENTS
+.TP
+.I FILE
+The file to open or create. If omitted, start with an empty buffer.
+.SH INTERACTIVE USE
+Run
+.B ete
+in an interactive terminal. Press F1 inside the editor for the keyboard
+shortcut reference. Ctrl+Q quits; unsaved changes prompt for confirmation.
+.SH REQUIREMENTS
+Python 3.8 or newer and a compatible curses-enabled terminal.
+.SH BUGS
+Report bugs at
+.UR https://github.com/ShadyDevelopment/ECHO-Text-Editor/issues
+the project issue tracker.
+.UE
+.SH SEE ALSO
+.BR python3 (1)

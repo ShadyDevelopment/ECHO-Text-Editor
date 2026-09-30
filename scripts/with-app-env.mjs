@@ -2,19 +2,16 @@
 /**
  * Run a command with `app-env.json` merged into its environment.
  *
- * `dev`, `build` and `preview` all route through this wrapper, so the dev
- * server, the built bundle and the preview server can never disagree about
- * `VITE_AUTH_ENABLED` — a divergence that only shows up as a built-output
- * mismatch long after the fact. Anything that starts Vite directly bypasses it.
+ * `dev`, `build` and `preview` all route through this wrapper so configured
+ * `VITE_` values stay consistent across the dev server, built bundle, and
+ * preview server. Anything that starts Vite directly bypasses it.
  *
  * Only `VITE_`-prefixed keys are honored: the file is a build flag carrier, not
  * a secret store, and only `VITE_` vars reach the browser anyway. A real
  * `process.env` entry always wins, so an explicit override still works.
  *
- * That precedence also means the file governs this workspace only. A deployed
- * build runs with the provider's project env, where the deployer sets
- * `VITE_AUTH_ENABLED` itself (today unconditionally `"true"`), so the deployed
- * flag is the platform's, not this file's.
+ * That precedence also means the file governs this workspace only; deployed
+ * builds use the provider's project environment.
  *
  * Vite picks the values up because `loadEnv` prefix-matches entries already in
  * `process.env`, which is why the merge has to happen before Vite starts.
@@ -32,7 +29,7 @@ const VITE_PREFIX = "VITE_";
 /**
  * Parse an app-env document, keeping only `VITE_`-prefixed string entries.
  * Anything unparseable is an empty environment — a workspace without the file
- * must behave exactly like today (auth on, no overrides).
+ * must behave exactly like today (no overrides).
  */
 export function parseAppEnv(text) {
   let parsed;

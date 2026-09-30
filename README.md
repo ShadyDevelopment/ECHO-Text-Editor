@@ -64,11 +64,11 @@ sudo apt install python3-curses
 ### Debian and Ubuntu
 
 Download the `.deb` from the [ETE releases page](https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases).
-For example, to install release 1.0.3-octa:
+For example, to install release 1.0.4-octa:
 
 ```bash
-curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.3-octa/ete_1.0.3-octa_all.deb
-sudo apt install ./ete_1.0.3-octa_all.deb
+curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.4-octa/ete_1.0.4-octa_all.deb
+sudo apt install ./ete_1.0.4-octa_all.deb
 ```
 
 `apt` installs the package and its declared Python dependency. To remove it:
@@ -80,11 +80,11 @@ sudo apt remove ete
 ### Fedora and RPM-based distributions
 
 Download the `.rpm` from the [ETE releases page](https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases).
-For example, to install release 1.0.3-octa:
+For example, to install release 1.0.4-octa:
 
 ```bash
-curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.3-octa/ete-1.0.3-1.octa.noarch.rpm
-sudo dnf install ./ete-1.0.3-1.octa.noarch.rpm
+curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.4-octa/ete-1.0.4-1.octa.noarch.rpm
+sudo dnf install ./ete-1.0.4-1.octa.noarch.rpm
 ```
 
 On systems using `yum`, substitute `yum install` for `dnf install`. To remove
@@ -157,6 +157,8 @@ Check the installed command or print its command-line help:
 ete --version
 ete --help
 ```
+
+When installed from a Linux package, read the full manual with `man ete`.
 
 Press **F1** while editing for the in-editor shortcut reference. `Ctrl+Q`
 quits; if the current buffer has unsaved edits, ETE asks whether to save,
@@ -251,18 +253,18 @@ build both package formats:
 
 ```bash
 sudo apt update
-sudo apt install dpkg-dev rpm
-bash packaging/build-packages.sh 1.0.3-octa
+sudo apt install dpkg-dev debhelper rpm make
+bash packaging/build-packages.sh 1.0.4-octa
 ```
 
-The script places `ete_1.0.3-octa_all.deb` and
-`ete-1.0.3-1.octa.noarch.rpm` in `dist/`. Debian keeps the full version; RPM
+The script places `ete_1.0.4-octa_all.deb` and
+`ete-1.0.4-1.octa.noarch.rpm` in `dist/`. Debian keeps the full version; RPM
 stores the numeric portion as its version and the `octa` suffix as its
 release.
 An alternate output directory can be passed as the second argument:
 
 ```bash
-bash packaging/build-packages.sh 1.0.3-octa "$HOME/build/ete"
+bash packaging/build-packages.sh 1.0.4-octa "$HOME/build/ete"
 ```
 
 These are architecture-independent packages. A `v*` tag runs the GitHub
@@ -273,21 +275,33 @@ bound to the GitHub Actions release workflow and a SHA-256 checksum in
 
 ```bash
 cosign verify-blob \
-  --bundle ete_1.0.3-octa_all.deb.sigstore.json \
-  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.3-octa' \
+  --bundle ete_1.0.4-octa_all.deb.sigstore.json \
+  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.4-octa' \
   --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
-  ete_1.0.3-octa_all.deb
+  ete_1.0.4-octa_all.deb
 cosign verify-blob \
-  --bundle ete-1.0.3-1.octa.noarch.rpm.sigstore.json \
-  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.3-octa' \
+  --bundle ete-1.0.4-1.octa.noarch.rpm.sigstore.json \
+  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.4-octa' \
   --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
-  ete-1.0.3-1.octa.noarch.rpm
+  ete-1.0.4-1.octa.noarch.rpm
 sha256sum --check SHA256SUMS
 ```
 
-The Linux packages contain only the `ete` executable and its README
-documentation; repository tests, fixtures, and development tooling are not
-installed. Check the releases page for the latest published binaries.
+The checked-in `Makefile`, `debian/` metadata, and `ete.spec` are the upstream
+installation and distro packaging definitions. The Makefile supports staged
+installs, for example:
+
+```bash
+make check
+make install DESTDIR="$HOME/stage" PREFIX=/usr BINDIR=/usr/bin SYSCONFDIR=/etc
+```
+
+ETE is a terminal application, so it does not install a desktop launcher,
+AppStream metadata, or a system service. Builds use only Python 3 and the
+standard library; no network access or vendored dependencies are needed.
+The Linux packages contain only the `ete` executable and its documentation;
+repository tests, fixtures, and development tooling are not installed. Check
+the releases page for the latest published binaries.
 
 ## Troubleshooting
 

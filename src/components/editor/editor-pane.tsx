@@ -205,7 +205,7 @@ function WelcomeArt() {
           className="mb-4 max-h-44 w-56 max-w-full select-none object-contain"
         />
         <div className="select-none">
-          <div>ECHO Text Editor v1.0.3-octa</div>
+          <div>ECHO Text Editor v1.0.4-octa</div>
           <div>Developed by Antonio Martinovic</div>
           <div>Copyright © {new Date().getFullYear()} ShadyDevelopment</div>
           <div>

@@ -30,17 +30,18 @@ import termios
 import time
 import unicodedata
 
-VERSION = "1.0.0"
+VERSION = "1.0.4-octa"
 APP = "ECHO Text Editor"
-AUTHOR = "Antonio Martinovic - ShadyDevelopment"
+DEVELOPER = "Antonio Martinovic"
+ORGANIZATION = "ShadyDevelopment"
+GIT_URL = "https://github.com/ShadyDevelopment/ECHO-Text-Editor"
 
 LOGO = [
-    r"  ______ ",
-    r" |  ____|",
-    r" | |__   ",
-    r" |  __|  ",
-    r" | |____ ",
-    r" |______|",
+    r" \       EEEEE",
+    r"  \      E",
+    r"   >     EEEE",
+    r"  /      E",
+    r" /       EEEEE",
 ]
 
 # Token roles used by the highlighter
@@ -50,6 +51,15 @@ BR_OPEN = {'(': ')', '[': ']', '{': '}'}
 BR_CLOSE = {')': '(', ']': '[', '}': '{'}
 
 KEY_HINT = "F1 Help   ^S Save   ^F Find   ^R Replace   ^Q Quit"
+
+
+def credits():
+    """Return the shared welcome/help credit lines."""
+    return [
+        "Developed by " + DEVELOPER,
+        "Copyright \u00a9 %d %s" % (time.localtime().tm_year, ORGANIZATION),
+        "Git: " + GIT_URL,
+    ]
 
 
 # ============================================================================
@@ -602,6 +612,14 @@ class Editor:
     def say(self, text, err=False):
         self.msg, self.msg_t, self.msg_err = text, time.time(), err
 
+    def refresh_language(self, path=None):
+        """Re-detect language after a shebang or Save As path changes."""
+        name = self.path if path is None else path
+        lang = detect_lang(name or '', self.buf.lines[0])
+        if lang != self.lang:
+            self.lang = lang
+            self.states = [None]
+
     # ---------------------------------------------------------------- file io
     def load(self, path):
         try:
@@ -672,11 +690,8 @@ class Editor:
             except OSError as e:
                 self.say("Save failed: %s" % e.strerror, True)
                 return False
-        changed = path != self.path
         self.path = path
-        if changed or self.lang is None:
-            self.lang = detect_lang(path, self.buf.lines[0])
-            self.states = [None]
+        self.refresh_language(path)
         self.buf.mark_saved()
         self.say("Saved %s (%d lines)" % (os.path.basename(path), len(self.buf.lines)))
         return True
@@ -944,6 +959,7 @@ class Editor:
     def edit(self, a, b, text, ca=None):
         cb = (self.cy, self.cx)
         end = self.buf.replace(a, b, text, cb, ca)
+        self.refresh_language()
         self.anchor = None
         self.cy, self.cx = ca if ca else end
         self.clamp()
@@ -1398,7 +1414,7 @@ class Editor:
             self.ov = None
 
     def show_help(self):
-        rows = LOGO + ["", "%s  v%s" % (APP, VERSION), "by " + AUTHOR, "",
+        rows = LOGO + ["", "%s  v%s" % (APP, VERSION)] + credits() + ["",
                        "File      ^S Save      F2 Save As      ^Q Quit",
                        "Edit      ^Z Undo      ^Y Redo         ^C/^X/^V Copy/Cut/Paste",
                        "          ^A Select all   ^D Duplicate line   ^L Delete line",
@@ -1423,7 +1439,7 @@ class Editor:
             else:
                 x = max(0, (w - len(max(rows[len(LOGO):], key=len))) // 2) if t[:1] == ' ' or t.split(' ')[0] in (
                     'File', 'Edit', 'Search', 'View', 'Select', 'Mouse', '') else max(0, (w - len(t)) // 2)
-                if i < len(LOGO) + 4:
+                if i < len(LOGO) + 5:
                     x = max(0, (w - len(t)) // 2)
             self.put(y0 + i, x, t[:w - 1], attr)
         self.scr.refresh()
@@ -1604,8 +1620,8 @@ class Editor:
 
         # welcome screen on an empty, unnamed buffer
         if not self.path and len(L) == 1 and not L[0] and not self.buf.modified:
-            rows = LOGO + ["", APP + "  v" + VERSION, "by " + AUTHOR, "",
-                           "Ctrl+S Save   Ctrl+F Find   Ctrl+Q Quit   F1 Help"]
+            rows = LOGO + ["", APP + "  v" + VERSION] + credits() + [
+                "", "Ctrl+S Save   Ctrl+F Find   Ctrl+Q Quit   F1 Help"]
             y0 = max(0, (th - len(rows)) // 2)
             for i, t in enumerate(rows):
                 if y0 + i < th:
@@ -1836,8 +1852,10 @@ def curses_main(scr, path, line):
 def main(argv):
     args = argv[1:]
     if any(a in ('-h', '--help') for a in args):
-        print("%s v%s - %s\n\nUsage: ete [+LINE] [FILE]\n       ete --version\n\n"
-              "Press F1 inside the editor for the key reference." % (APP, VERSION, AUTHOR))
+        print("%s v%s\n%s\n%s\nGit: %s\n\n"
+              "Usage: ete [+LINE] [FILE]\n       ete --version\n\n"
+              "Press F1 inside the editor for the key reference." % (
+                  APP, VERSION, credits()[0], credits()[1], GIT_URL))
         return 0
     if any(a in ('-v', '--version') for a in args):
         print("ete %s" % VERSION)

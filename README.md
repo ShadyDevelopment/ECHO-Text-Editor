@@ -1,3 +1,5 @@
+
+
 # ECHO Text Editor
 
 **ECHO Text Editor (`ete`)** is a lightweight terminal text editor for Linux.
@@ -5,6 +7,8 @@ It brings familiar GUI-editor shortcuts to a single-file Python 3 application:
 syntax highlighting, line numbers, mouse selection, undo/redo, find/replace,
 auto-indentation, and word wrap. The editor uses Python's standard library and
 does not need pip packages.
+
+![ETE - ECHO Text Editor](artifacts/imagine_images/ad2fd2a3-b2ce-4c79-9121-7e485856382d.jpg)
 
 ## Contents
 

@@ -6,3 +6,4 @@ dist/
 .env.*
 .preview.pid
 .preview.log
+publish.log

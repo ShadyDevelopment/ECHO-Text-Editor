@@ -1,5 +1,5 @@
-ete (1.0.4-octa) UNRELEASED; urgency=medium
+ete (1:1.0.4-1) stable; urgency=medium
 
-  * Initial upstream release.
+  * Initial stable-suite upload with corrected Debian package metadata.
 
- -- Antonio Martinovic <antoniomartinovic.business@outlook.com>  Thu, 01 Oct 2026 00:00:00 +0000
+ -- Antonio Martinovic <antoniomartinovic.business@outlook.com>  Thu, 01 Oct 2026 03:10:00 +0200

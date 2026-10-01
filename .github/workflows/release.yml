@@ -35,7 +35,7 @@ jobs:
         run: |
           version="${INPUT_VERSION:-${GITHUB_REF_NAME#v}}"
           bash packaging/build-packages.sh "$version" dist
-          (cd dist && sha256sum *.deb *.rpm > SHA256SUMS)
+          (cd dist && sha256sum *.deb *.rpm *.tar.gz > SHA256SUMS)
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Install Cosign
@@ -43,8 +43,8 @@ jobs:
 
       - name: Sign packages with Sigstore
         run: |
-          for package in dist/*.deb dist/*.rpm; do
-            cosign sign-blob --yes --bundle "${package}.sigstore.json" "$package"
+          for artifact in dist/*.deb dist/*.rpm dist/*.tar.gz; do
+            cosign sign-blob --yes --bundle "${artifact}.sigstore.json" "$artifact"
           done
 
       - name: Publish GitHub release

@@ -4,7 +4,7 @@ Release:        1.octa%{?dist}
 Summary:        ECHO terminal text editor
 License:        MIT
 URL:            https://github.com/ShadyDevelopment/ECHO-Text-Editor
-Source0:        https://github.com/ShadyDevelopment/ECHO-Text-Editor/archive/refs/tags/v1.0.4-octa.tar.gz
+Source0:        https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v%{version}-octa/ete-%{version}-octa.tar.gz
 BuildArch:      noarch
 BuildRequires:  make
 BuildRequires:  python3
@@ -16,9 +16,12 @@ support, Windows-style keyboard shortcuts, undo/redo, and find/replace. It is
 written in Python and has no third-party runtime dependencies.
 
 %prep
-%autosetup -n ECHO-Text-Editor-1.0.4-octa
+%autosetup -n ete-%{version}-octa
 
 %build
+:
+
+%check
 %make_build check
 
 %install
@@ -26,7 +29,6 @@ written in Python and has no third-party runtime dependencies.
 
 %files
 %license LICENSE
-%doc README.md
 %{_bindir}/ete
 %{_mandir}/man1/ete.1*
 

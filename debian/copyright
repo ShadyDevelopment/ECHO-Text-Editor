@@ -1,6 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: ECHO Text Editor
 Source: https://github.com/ShadyDevelopment/ECHO-Text-Editor
+Upstream-Contact: Antonio Martinovic <antoniomartinovic.business@outlook.com>
 
 Files: *
 Copyright: 2026 Antonio Martinovic

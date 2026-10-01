@@ -2,10 +2,13 @@ Source: ete
 Section: editors
 Priority: optional
 Maintainer: Antonio Martinovic <antoniomartinovic.business@outlook.com>
-Build-Depends: debhelper-compat (= 13), make, python3 (>= 3.8)
-Standards-Version: 4.7.2
+Uploaders: Antonio Martinovic <5h4dyd3v@gmail.com>
+Build-Depends: debhelper-compat (= 13), python3 (>= 3.8)
+Standards-Version: 4.7.4.1
 Rules-Requires-Root: no
 Homepage: https://github.com/ShadyDevelopment/ECHO-Text-Editor
+Vcs-Browser: https://github.com/ShadyDevelopment/ECHO-Text-Editor
+Vcs-Git: https://github.com/ShadyDevelopment/ECHO-Text-Editor.git
 
 Package: ete
 Architecture: all

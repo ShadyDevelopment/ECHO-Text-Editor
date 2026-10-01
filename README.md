@@ -67,8 +67,8 @@ Download the `.deb` from the [ETE releases page](https://github.com/ShadyDevelop
 For example, to install release 1.0.4-octa:
 
 ```bash
-curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.4-octa/ete_1.0.4-octa_all.deb
-sudo apt install ./ete_1.0.4-octa_all.deb
+curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.4-octa/ete_1.0.4-octa-1_all.deb
+sudo apt install ./ete_1.0.4-octa-1_all.deb
 ```
 
 `apt` installs the package and its declared Python dependency. To remove it:
@@ -257,15 +257,34 @@ sudo apt install dpkg-dev debhelper rpm make
 bash packaging/build-packages.sh 1.0.4-octa
 ```
 
-The script places `ete_1.0.4-octa_all.deb` and
-`ete-1.0.4-1.octa.noarch.rpm` in `dist/`. Debian keeps the full version; RPM
-stores the numeric portion as its version and the `octa` suffix as its
-release.
+The script places `ete_1.0.4-octa-1_all.deb`,
+`ete-1.0.4-1.octa.noarch.rpm`, `ete-1.0.4-1.octa.src.rpm`, and a trimmed upstream source archive in
+`dist/`. It also creates Debian's matching
+`ete_1.0.4-octa.orig.tar.gz` source archive. These source archives contain
+only the CLI application, its Makefile, man page, and MIT license, not the
+unrelated web application or generated bundles. Debian keeps
+the full version; RPM stores the numeric portion as its version and the
+`octa` suffix as its release.
 An alternate output directory can be passed as the second argument:
 
 ```bash
 bash packaging/build-packages.sh 1.0.4-octa "$HOME/build/ete"
 ```
+
+The root-level `publish.sh` automates the Debian source build, Fedora RPM/SRPM
+build, linting, signing, and upload to mentors.debian.net. It requires the
+maintainer's signing key and Mentors account to be configured first. Test the
+build and lint stages without signing or uploading with:
+
+```bash
+PUBLISH_DRY_RUN=1 bash publish.sh
+```
+
+To optionally submit the built SRPM to an already configured Copr project,
+set `COPR_PROJECT` in the environment before running the script. Copr is a
+community build service, not Fedora's official package repository; Fedora
+official inclusion still requires the package review and maintainer approval
+process.
 
 These are architecture-independent packages. A `v*` tag runs the GitHub
 Actions release workflow, which builds the `.deb` and `.rpm` on Linux and
@@ -275,10 +294,10 @@ bound to the GitHub Actions release workflow and a SHA-256 checksum in
 
 ```bash
 cosign verify-blob \
-  --bundle ete_1.0.4-octa_all.deb.sigstore.json \
+  --bundle ete_1.0.4-octa-1_all.deb.sigstore.json \
   --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.4-octa' \
   --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
-  ete_1.0.4-octa_all.deb
+  ete_1.0.4-octa-1_all.deb
 cosign verify-blob \
   --bundle ete-1.0.4-1.octa.noarch.rpm.sigstore.json \
   --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.4-octa' \

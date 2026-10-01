@@ -1,0 +1,6 @@
+*.spec text eol=lf
+*.sh text eol=lf
+Makefile text eol=lf
+debian/** text eol=lf
+man/** text eol=lf
+.dput.cf text eol=lf

@@ -1,5 +1,5 @@
 Name:           ete
-Version:        1.0.4
+Version:        1.0.5
 Release:        1.octa%{?dist}
 Summary:        ECHO terminal text editor
 License:        MIT
@@ -33,5 +33,5 @@ written in Python and has no third-party runtime dependencies.
 %{_mandir}/man1/ete.1*
 
 %changelog
-* Thu Oct 01 2026 Antonio Martinovic <antoniomartinovic.business@outlook.com> - 1.0.4-1.octa
-- Initial package for ETE 1.0.4-octa.
+* Thu Oct 01 2026 Antonio Martinovic <antoniomartinovic.business@outlook.com> - 1.0.5-1.octa
+- Remove unavailable standalone curses runtime dependency from Debian packaging.

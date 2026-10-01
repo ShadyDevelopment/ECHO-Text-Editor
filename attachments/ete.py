@@ -30,7 +30,7 @@ import termios
 import time
 import unicodedata
 
-VERSION = "1.0.4-octa"
+VERSION = "1.0.5-octa"
 APP = "ECHO Text Editor"
 DEVELOPER = "Antonio Martinovic"
 ORGANIZATION = "ShadyDevelopment"

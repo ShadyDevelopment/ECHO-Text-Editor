@@ -52,23 +52,16 @@ does not need pip packages.
 - Optional clipboard commands: `wl-copy`/`wl-paste` for Wayland or `xclip` or
   `xsel` for X11.
 
-On Debian or Ubuntu, if importing `curses` fails, install the matching
-distribution package:
-
-```bash
-sudo apt install python3-curses
-```
-
 ## Install
 
 ### Debian and Ubuntu
 
 Download the `.deb` from the [ETE releases page](https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases).
-For example, to install release 1.0.4-octa:
+For example, to install release 1.0.5-octa:
 
 ```bash
-curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.4-octa/ete_1.0.4-octa-1_all.deb
-sudo apt install ./ete_1.0.4-octa-1_all.deb
+curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.5-octa/ete_1.0.5-octa-1_all.deb
+sudo apt install ./ete_1.0.5-octa-1_all.deb
 ```
 
 `apt` installs the package and its declared Python dependency. To remove it:
@@ -80,11 +73,11 @@ sudo apt remove ete
 ### Fedora and RPM-based distributions
 
 Download the `.rpm` from the [ETE releases page](https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases).
-For example, to install release 1.0.4-octa:
+For example, to install release 1.0.5-octa:
 
 ```bash
-curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.4-octa/ete-1.0.4-1.octa.noarch.rpm
-sudo dnf install ./ete-1.0.4-1.octa.noarch.rpm
+curl -LO https://github.com/ShadyDevelopment/ECHO-Text-Editor/releases/download/v1.0.5-octa/ete-1.0.5-1.octa.noarch.rpm
+sudo dnf install ./ete-1.0.5-1.octa.noarch.rpm
 ```
 
 On systems using `yum`, substitute `yum install` for `dnf install`. To remove
@@ -254,13 +247,13 @@ build both package formats:
 ```bash
 sudo apt update
 sudo apt install dpkg-dev debhelper rpm make
-bash packaging/build-packages.sh 1.0.4-octa
+bash packaging/build-packages.sh 1.0.5-octa
 ```
 
-The script places `ete_1.0.4-octa-1_all.deb`,
-`ete-1.0.4-1.octa.noarch.rpm`, `ete-1.0.4-1.octa.src.rpm`, and a trimmed upstream source archive in
+The script places `ete_1.0.5-octa-1_all.deb`,
+`ete-1.0.5-1.octa.noarch.rpm`, `ete-1.0.5-1.octa.src.rpm`, and a trimmed upstream source archive in
 `dist/`. It also creates Debian's matching
-`ete_1.0.4-octa.orig.tar.gz` source archive. These source archives contain
+`ete_1.0.5-octa.orig.tar.gz` source archive. These source archives contain
 only the CLI application, its Makefile, man page, and MIT license, not the
 unrelated web application or generated bundles. Debian keeps
 the full version; RPM stores the numeric portion as its version and the
@@ -268,7 +261,7 @@ the full version; RPM stores the numeric portion as its version and the
 An alternate output directory can be passed as the second argument:
 
 ```bash
-bash packaging/build-packages.sh 1.0.4-octa "$HOME/build/ete"
+bash packaging/build-packages.sh 1.0.5-octa "$HOME/build/ete"
 ```
 
 The root-level `publish.sh` automates the Debian source build, Fedora RPM/SRPM
@@ -294,15 +287,15 @@ bound to the GitHub Actions release workflow and a SHA-256 checksum in
 
 ```bash
 cosign verify-blob \
-  --bundle ete_1.0.4-octa-1_all.deb.sigstore.json \
-  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.4-octa' \
+  --bundle ete_1.0.5-octa-1_all.deb.sigstore.json \
+  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.5-octa' \
   --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
-  ete_1.0.4-octa-1_all.deb
+  ete_1.0.5-octa-1_all.deb
 cosign verify-blob \
-  --bundle ete-1.0.4-1.octa.noarch.rpm.sigstore.json \
-  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.4-octa' \
+  --bundle ete-1.0.5-1.octa.noarch.rpm.sigstore.json \
+  --certificate-identity 'https://github.com/ShadyDevelopment/ECHO-Text-Editor/.github/workflows/release.yml@refs/tags/v1.0.5-octa' \
   --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
-  ete-1.0.4-1.octa.noarch.rpm
+  ete-1.0.5-1.octa.noarch.rpm
 sha256sum --check SHA256SUMS
 ```
 
@@ -332,9 +325,9 @@ non-interactive task runner.
 
 ### `No module named '_curses'` or `curses` import error
 
-Install your distribution's Python curses package (for example,
-`sudo apt install python3-curses` on Debian/Ubuntu), and ensure it matches the
-Python interpreter used to launch ETE.
+ETE uses the `curses` module provided by Python's standard library. Check that
+your Python 3 installation includes curses support and that it is the same
+interpreter used to launch ETE.
 
 ### `ete: command not found`
 

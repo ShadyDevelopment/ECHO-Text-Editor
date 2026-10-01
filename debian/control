@@ -12,7 +12,7 @@ Vcs-Git: https://github.com/ShadyDevelopment/ECHO-Text-Editor.git
 
 Package: ete
 Architecture: all
-Depends: ${misc:Depends}, python3 (>= 3.8), python3-curses
+Depends: ${misc:Depends}, python3 (>= 3.8)
 Description: ECHO terminal text editor
  ETE is a lightweight terminal text editor with familiar GUI-editor shortcuts.
  It includes syntax highlighting, line numbers, mouse selection, undo/redo,

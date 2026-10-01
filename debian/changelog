@@ -1,5 +1,6 @@
-ete (1:1.0.4-1) stable; urgency=medium
+ete (1:1.0.5-1) stable; urgency=medium
 
-  * Initial stable-suite upload with corrected Debian package metadata.
+  * Remove the redundant standalone curses runtime dependency.
+  * Refresh package metadata for the 1.0.5-octa upstream release.
 
- -- Antonio Martinovic <antoniomartinovic.business@outlook.com>  Thu, 01 Oct 2026 03:10:00 +0200
+ -- Antonio Martinovic <antoniomartinovic.business@outlook.com>  Thu, 01 Oct 2026 04:04:00 +0200

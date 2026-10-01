@@ -54,7 +54,7 @@ Version: $deb_version
 Section: editors
 Priority: optional
 Architecture: all
-Depends: python3 (>= 3.8), python3-curses
+Depends: python3 (>= 3.8)
 Maintainer: Antonio Martinovic <antoniomartinovic.business@outlook.com>
 Description: ECHO terminal text editor
  A single-file curses editor with syntax highlighting, mouse support,
